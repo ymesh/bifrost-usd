@@ -1,0 +1,8 @@
+{
+    "include": "${BIFROST_LOCATION}/resources/amino_config.json",
+    "include": "${BIFROST_LOCATION}/resources/bif_config.json",
+    "include": "${BIFROST_LOCATION}/resources/bgl_config.json",
+    "include": "${BIFROST_LOCATION}/resources/scatter_pack_config.json",
+    "include": "${BIFROST_LOCATION}/resources/graphs_config.json",
+    "include": "test_bif_geo_compounds_config.json"
+}

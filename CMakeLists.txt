@@ -149,6 +149,7 @@ include(${BIFUSD_TOOLS_DIR}/gtest.cmake)
 #==============================================================================
 
 find_package(Bifrost REQUIRED SDK)
+find_package(InternalBifrost REQUIRED)
 find_package(USD REQUIRED)
 
 #==============================================================================

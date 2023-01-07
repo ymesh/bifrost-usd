@@ -16,17 +16,6 @@
 #*****************************************************************************
 #+
 
-set(resources_dir "${BIFUSD_TEST_RESOURCES_LOCATION}/resources")
-set(usd_test_dir "${CMAKE_CURRENT_LIST_DIR}")
-
-message( STATUS "BifrostUSD test dir.:           ${usd_test_dir}")
-message( STATUS "BifrostUSD test resources dir.: ${resources_dir}")
-
-if(NOT DEFINED BIFUSD_BIFCMD_LOCATION)
-    bifusd_required_variables(BIFROST_LOCATION)
-    set(BIFUSD_BIFCMD_LOCATION "${BIFROST_LOCATION}/bin")
-endif()
-
-add_subdirectory(BifrostHydra)
-add_subdirectory(BifrostUsd)
-add_subdirectory(nodedefs)
+add_subdirectory(BifrostHdTranslators)
+add_subdirectory(BifrostHdEngine)
+add_subdirectory(BifrostHdGraph)

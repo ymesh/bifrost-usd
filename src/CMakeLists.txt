@@ -17,6 +17,7 @@
 #+
 
 add_subdirectory(BifrostUsd)
+add_subdirectory(BifrostHydra)
 add_subdirectory(nodedefs)
 add_subdirectory(resources)
 add_subdirectory(watchpoints)

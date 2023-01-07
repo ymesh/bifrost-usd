@@ -16,17 +16,26 @@
 #*****************************************************************************
 #+
 
-set(resources_dir "${BIFUSD_TEST_RESOURCES_LOCATION}/resources")
-set(usd_test_dir "${CMAKE_CURRENT_LIST_DIR}")
+set(private_libs
+    Amino::Core
+    BifrostGraph::Executor
+    InternalBifrost::AminoSDK
+    BifrostHdEngine
+)
 
-message( STATUS "BifrostUSD test dir.:           ${usd_test_dir}")
-message( STATUS "BifrostUSD test resources dir.: ${resources_dir}")
+set(src_files
+    TypeTranslation.cpp
+)
 
-if(NOT DEFINED BIFUSD_BIFCMD_LOCATION)
-    bifusd_required_variables(BIFROST_LOCATION)
-    set(BIFUSD_BIFCMD_LOCATION "${BIFROST_LOCATION}/bin")
-endif()
+bifusd_set_extra_rpaths(extra_rpaths)
 
-add_subdirectory(BifrostHydra)
-add_subdirectory(BifrostUsd)
-add_subdirectory(nodedefs)
+bifusd_create_shared_lib(
+    BifrostHdTypeTranslation "BIFROST_HD_ENGINE_BUILD_DLL" # TODO: add export file
+    PUBLIC_INSTALL
+    PUBLIC_DEFINITIONS     $<${BIFUSD_IS_MSC}: BOOST_LIB_TOOLSET="vc141">
+    PRIVATE_DEFINITIONS    $<${BIFUSD_IS_DEBUG}: TBB_USE_DEBUG BOOST_DEBUG_PYTHON BOOST_LINKING_PYTHON>
+    PUBLIC_OPTIONS         $<${BIFUSD_IS_MSC}:/wd4251 /wd4273>
+    SRC_FILES              ${src_files}
+    PRIVATE_LINK_LIBS      ${private_libs}
+    EXTRA_RPATH            ${extra_rpaths}
+)

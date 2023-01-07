@@ -16,17 +16,14 @@
 #*****************************************************************************
 #+
 
-set(resources_dir "${BIFUSD_TEST_RESOURCES_LOCATION}/resources")
-set(usd_test_dir "${CMAKE_CURRENT_LIST_DIR}")
+set( bifrost_hydra_json_tpl ${BIFUSD_OUTPUT_ROOT_DIR}/bifrost_hydra_translation.json.tpl )
+set( bifrost_hydra_json ${BIFUSD_OUTPUT_ROOT_DIR}/bifrost_hydra_translation.json )
 
-message( STATUS "BifrostUSD test dir.:           ${usd_test_dir}")
-message( STATUS "BifrostUSD test resources dir.: ${resources_dir}")
+# Substitute version information.
+# See bifrost_hydra_translation.json.in file
+configure_file(bifrost_hydra_translation.json.in ${bifrost_hydra_json_tpl} @ONLY )
 
-if(NOT DEFINED BIFUSD_BIFCMD_LOCATION)
-    bifusd_required_variables(BIFROST_LOCATION)
-    set(BIFUSD_BIFCMD_LOCATION "${BIFROST_LOCATION}/bin")
-endif()
-
-add_subdirectory(BifrostHydra)
-add_subdirectory(BifrostUsd)
-add_subdirectory(nodedefs)
+# Substitute location of libs - only ${xyz} vars remain after the previous step.
+# See bifrost_hydra_translation.json.in file
+configure_file(${bifrost_hydra_json_tpl} ${bifrost_hydra_json} )
+install(FILES ${bifrost_hydra_json} DESTINATION ${BIFUSD_INSTALL_ROOT_DIR} )
