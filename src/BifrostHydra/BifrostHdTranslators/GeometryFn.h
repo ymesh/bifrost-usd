@@ -26,14 +26,14 @@
 enum class BifrostHdGeoTypes {
     Empty,
     Mesh,
-    Instances,
     Strands,
-    PointCloud
+    PointCloud,
+    Instances
 };
 
 namespace BifrostHd {
 
-bool IsA(const Bifrost::Object& object, BifrostHdGeoTypes geoType);
+BifrostHdGeoTypes GetGeoType(const Bifrost::Object& object);
 
 // Bifrost geometry object accesors
 size_t GetPointCount(const Bifrost::Object& object);

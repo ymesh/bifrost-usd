@@ -468,26 +468,23 @@ bool AddVec3ArrayToMesh(const Amino::String&                name,
 
 namespace BifrostHd {
 
-bool IsA(const Bifrost::Object& object, BifrostHdGeoTypes geoType) {
+BifrostHdGeoTypes GetGeoType(const Bifrost::Object& object) {
+
     auto objType = Amino::whatIs(object, BifrostExp::getGeometryTypes());
-    bool result  = false;
-    switch (geoType) {
-        case BifrostHdGeoTypes::Empty: result = object.empty(); break;
-        case BifrostHdGeoTypes::Mesh:
-            result = objType == BifrostExp::getMeshPrototype();
-            break;
-        case BifrostHdGeoTypes::Instances:
-            result = objType == BifrostExp::getInstancesPrototype();
-            break;
-        case BifrostHdGeoTypes::Strands:
-            result = objType == BifrostExp::getStrandPrototype();
-            break;
-        case BifrostHdGeoTypes::PointCloud:
-            result = objType == BifrostExp::getPointCloudPrototype();
-            break;
+
+    if(object.empty()) {
+        return BifrostHdGeoTypes::Empty;
+    } else if (objType == BifrostExp::getMeshPrototype()) {
+        return BifrostHdGeoTypes::Mesh;
+    } else if (objType == BifrostExp::getStrandPrototype()) {
+        return BifrostHdGeoTypes::Strands;
+    } else if (objType == BifrostExp::getPointCloudPrototype()) {
+        return BifrostHdGeoTypes::PointCloud;
+    } else if (objType == BifrostExp::getInstancesPrototype()) {
+        return BifrostHdGeoTypes::PointCloud;
     }
 
-    return result;
+    return BifrostHdGeoTypes::Empty;
 }
 
 size_t GetPointCount(const Bifrost::Object& object) {

@@ -58,16 +58,24 @@ BifrostGraphGenerativeProcedural::Update(
         for (size_t i = 0; i < objectArray.size(); ++i) {
             // We need to cache if the geo is an instance as it is
             // costly to re-do it for each path in the sub-loop later on
-            bool                                 isInstance = false;
+
             std::shared_ptr<BifrostHd::Geometry> geo;
             const auto&                          obj = *(objectArray[i]);
-            if (BifrostHd::IsA(obj, BifrostHdGeoTypes::Mesh)) {
-                geo = std::make_shared<BifrostHd::Mesh>(obj, i);
-            } else if (BifrostHd::IsA(obj, BifrostHdGeoTypes::Instances)) {
-                geo        = std::make_shared<BifrostHd::Instances>(obj);
-                isInstance = true;
-            } else if (BifrostHd::IsA(obj, BifrostHdGeoTypes::Strands)) {
-                geo = std::make_shared<BifrostHd::Strands>(obj, i);
+
+            auto geoType = BifrostHd::GetGeoType(obj);
+
+            switch (geoType) {
+                case BifrostHdGeoTypes::Empty: break;
+                case BifrostHdGeoTypes::Mesh:
+                    geo = std::make_shared<BifrostHd::Mesh>(obj, i);
+                    break;
+                case BifrostHdGeoTypes::Strands:
+                    geo = std::make_shared<BifrostHd::Strands>(obj, i);
+                    break;
+                case BifrostHdGeoTypes::PointCloud: break;
+                case BifrostHdGeoTypes::Instances:
+                    geo = std::make_shared<BifrostHd::Instances>(obj);
+                    break;
             }
 
             if (geo) {
@@ -75,7 +83,7 @@ BifrostGraphGenerativeProcedural::Update(
                 size_t j    = 0;
                 for (const auto& child : geo->getChildren()) {
                     // TODO(laforgg): Instances support is not working yet
-                    if (isInstance && j > 0) {
+                    if (geoType == BifrostHdGeoTypes::Instances && j > 0) {
                         path = path.AppendChild(TfToken{"prototypes"});
                         path = path.AppendChild(TfToken{"mesh"});
                     } else {
