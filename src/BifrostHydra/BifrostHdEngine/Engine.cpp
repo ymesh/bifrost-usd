@@ -39,11 +39,11 @@ public:
                     BifrostBoardContainer::GraphMode::kLoadAsReference)) {
                 return Amino::Job::State::kErrors;
             }
+            if (!m_container.updateJob()) {
+                return Amino::Job::State::kErrors;
+            }
         }
 
-        if (!m_container.updateJob()) {
-            return Amino::Job::State::kErrors;
-        }
 
         const double currentTime = frame / m_fps;
         const double frameLength = 1.0 / m_fps;
