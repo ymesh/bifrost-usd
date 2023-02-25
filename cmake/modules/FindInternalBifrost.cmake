@@ -59,7 +59,7 @@ function(bifrost_internal_sdk_init)
     )
 
     find_library(BIFObject_LIBRARY
-        NAMES Geometry_${amino_sdk_version_major}_${amino_sdk_version_minor}_${amino_sdk_version_patch}
+        NAMES BIFObject_${amino_sdk_version_major}_${amino_sdk_version_minor}_${amino_sdk_version_patch}
         HINTS ${LIB_HINTS}
         NO_DEFAULT_PATH
     )

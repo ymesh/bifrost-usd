@@ -561,7 +561,7 @@ Amino::Ptr<Bifrost::Object> GetShapeFromId(const Bifrost::Object& obj,
         Amino::any_cast<Amino::Ptr<Amino::Array<Amino::Ptr<Bifrost::Object>>>>(
             shape_any);
     if (shapes) {
-        if (id < static_cast<decltype(id)>(shapes->size())) {
+        if (id < static_cast<Amino::long_t>(shapes->size())) {
             return (*shapes)[id];
         }
     }

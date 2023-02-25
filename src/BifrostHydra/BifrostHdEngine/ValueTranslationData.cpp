@@ -74,7 +74,8 @@ Amino::Value ValueTranslationData::getInput(Amino::Type const& type) const {
             val.read(flt3);
             return val;
         } else if (vtValue.IsHolding<std::int64_t>()) {
-            return Amino::Value{vtValue.UncheckedGet<std::int64_t>()};
+            return Amino::Value{static_cast<Amino::long_t>(
+                vtValue.UncheckedGet<std::int64_t>())};
         } else if (vtValue.IsHolding<std::string>()) {
             return Amino::Value{vtValue.UncheckedGet<std::string>().c_str()};
         } else if (vtValue.IsHolding<pxr::VtArray<pxr::SdfPath>>()) {

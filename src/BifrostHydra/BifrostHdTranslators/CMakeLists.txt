@@ -32,6 +32,7 @@ bifusd_install_headers(
 )
 
 set(private_libs
+    Amino::Core
     Bifrost::Object
     InternalBifrost::AminoSDK
     InternalBifrost::Geometry
@@ -53,17 +54,16 @@ bifusd_set_extra_rpaths(extra_rpaths)
 bifusd_create_shared_lib(
     BifrostHdTranslators "USD_BUILD_DLL"
     PUBLIC_INSTALL
-    PUBLIC_DEFINITIONS     $<${BIFUSD_IS_MSC}: BOOST_LIB_TOOLSET="vc141">
-    PRIVATE_DEFINITIONS    $<${BIFUSD_IS_DEBUG}: TBB_USE_DEBUG BOOST_DEBUG_PYTHON BOOST_LINKING_PYTHON>
+    PUBLIC_DEFINITIONS      $<${BIFUSD_IS_MSC}: BOOST_LIB_TOOLSET="vc141">
+    PRIVATE_DEFINITIONS     $<${BIFUSD_IS_DEBUG}: TBB_USE_DEBUG BOOST_DEBUG_PYTHON BOOST_LINKING_PYTHON>
     PRIVATE_OPTIONS         $<${BIFUSD_IS_MSC}:/wd4251 /wd4273>
-                            # 'GetValue' overrides a member function but is not marked 'override' 
-                            # in pxr/imaging/hd/dataSource.h:176:21
-                                                 -Wno-inconsistent-missing-override
-                                                 -Wno-suggest-override
-                            # There are some unused member function in pxr/imaging/hd/dataSource.h:65:5
-                                                 -Wno-unused-member-function
+                            $<${BIFUSD_IS_CLANG}: 
+                                # 'GetValue' overrides a member function but is not marked 'override' 
+                                # in pxr/imaging/hd/dataSource.h:176:21                                                 
+                                -Wno-suggest-override -Wno-inconsistent-missing-override
+                                # There are some unused member function in pxr/imaging/hd/dataSource.h:65:5
+                                 -Wno-unused-member-function
                             >
-
     SRC_FILES              ${src_files}
     PRIVATE_LINK_LIBS      ${private_libs}
     EXTRA_RPATH            ${extra_rpaths}
