@@ -22,6 +22,6 @@ def Scope "Bifrost"
         float primvars:detail_size = 0.7
 
         # Output parameter
-        string primvars:bifrost:output = "mesh"
+        string primvars:bifrost:output = "meshes"
     }
 }
