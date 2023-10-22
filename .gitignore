@@ -5,3 +5,5 @@ __pycache__
 .vscode
 # jetbrains solutions
 .idea
+
+build/tmp_*
